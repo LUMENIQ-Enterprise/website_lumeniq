@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMENIQ — Offline AI Translation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0a;
+      --surface:   #111111;
+      --green:     #00ff9f;
+      --cyan:      #00cfff;
+      --amber:     #ffe135;
+      --text:      #f0f0f0;
+      --muted:     #888888;
+      --border:    1px solid #00ff9f;
+      --border-dim: 1px solid #1e1e1e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Focus ring ──────────────────────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 3px;
+    }
+
+    /* ── Typography helpers ──────────────────────────────────────────── */
+    .mono-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    /* ── Scrollbar ───────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+    /* ══════════════════════════════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════════════════════════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 52px;
+    }
+
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--green);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cursor {
+      color: var(--green);
+      animation: blink 1s step-end infinite;
+      margin-left: 8px;
+      font-size: 13px;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 80px 24px;
+      overflow: hidden;
+      max-width: 100%;
+    }
+
+    /* Scanline overlay */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 159, 0.018) 2px,
+        rgba(0, 255, 159, 0.018) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Scanline sweep */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 255, 159, 0.05) 50%,
+        transparent 100%
+      );
+      background-size: 100% 200%;
+      animation: scanline-sweep 6s linear infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 3;
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-bottom: 28px;
+    }
+
+    .hero-headline {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(22px, 4vw, 42px);
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 20px;
+      white-space: pre-line;
+
+      /* Typewriter */
+      overflow: hidden;
+      border-right: 3px solid var(--green);
+      width: 0;
+      animation:
+        typewriter 2.8s steps(54, end) 0.4s forwards,
+        cursor-blink 0.8s step-end 3.2s infinite;
+      white-space: nowrap;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fade-in 0.5s ease 3.4s forwards;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--bg);
+      background: var(--amber);
+      border: 1px solid var(--amber);
+      padding: 12px 28px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+      opacity: 0;
+      animation: fade-in 0.5s ease 3.6s forwards;
+    }
+
+    .hero-cta:hover {
+      background: transparent;
+      color: var(--amber);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       SHARED SECTION STYLES
+    ══════════════════════════════════════════════════════════════════ */
+    section {
+      padding: 80px 32px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 0.14em;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e1e1e;
+    }
+
+    /* Scroll fade-in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       FEATURE GRID
+    ══════════════════════════════════════════════════════════════════ */
+    #features {
+      border-top: var(--border-dim);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #1a1a1a;
+      border: var(--border-dim);
+    }
+
+    .feature-card {
+      position: relative;
+      background: var(--bg);
+      padding: 28px 24px;
+      transition: background 150ms ease;
+    }
+
+    .feature-card:hover { background: #0f0f0f; }
+
+    /* Terminal corners */
+    .feature-card::before {
+      content: '┌─';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #2a2a2a;
+      font-size: 11px;
+      font-family: monospace;
+      line-height: 1;
+    }
+
+    .feature-card::after {
+      content: '─┐';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #2a2a2a;
+      font-size: 11px;
+      font-family: monospace;
+      line-height: 1;
+    }
+
+    .card-icon {
+      font-size: 18px;
+      margin-bottom: 14px;
+      color: var(--green);
+      font-family: monospace;
+    }
+
+    .card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PROCESS LOG
+    ══════════════════════════════════════════════════════════════════ */
+    #process {
+      border-top: var(--border-dim);
+    }
+
+    .process-terminal {
+      border: var(--border-dim);
+      background: var(--surface);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-bottom: var(--border-dim);
+      background: #0f0f0f;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2a2a2a;
+    }
+
+    .terminal-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 6px;
+    }
+
+    .process-body {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .process-step {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--muted);
+      padding: 10px 0;
+      border-bottom: var(--border-dim);
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .process-step:last-child { border-bottom: none; }
+
+    .process-step.visible { opacity: 1; }
+
+    .step-prompt {
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .step-num {
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    .step-action { color: var(--text); }
+
+    .step-status {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       USE CASES TABLE
+    ══════════════════════════════════════════════════════════════════ */
+    #usecases {
+      border-top: var(--border-dim);
+    }
+
+    .table-wrap {
+      border: var(--border-dim);
+      overflow-x: auto;
+    }
+
+    .use-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .use-table thead th {
+      padding: 12px 20px;
+      text-align: left;
+      font-size: 11px;
+      color: var(--muted);
+      border-bottom: var(--border-dim);
+      background: #0f0f0f;
+    }
+
+    .use-table tbody td {
+      padding: 14px 20px;
+      border-bottom: var(--border-dim);
+      vertical-align: middle;
+    }
+
+    .use-table tbody tr:last-child td { border-bottom: none; }
+
+    .use-table tbody tr:nth-child(odd) .td-sector { color: var(--green); }
+    .use-table tbody tr:nth-child(even) .td-sector { color: var(--cyan); }
+    .use-table tbody tr:nth-child(odd) .td-status { color: var(--green); }
+    .use-table tbody tr:nth-child(even) .td-status { color: var(--cyan); }
+
+    .td-benefit { color: var(--muted); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       CTA / FOOTER
+    ══════════════════════════════════════════════════════════════════ */
+    #cta {
+      border-top: var(--border);
+      background: var(--surface);
+      padding: 80px 32px;
+      text-align: center;
+      max-width: 100%;
+    }
+
+    .cta-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .cta-headline {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(18px, 3vw, 28px);
+      color: var(--text);
+      margin-bottom: 36px;
+      line-height: 1.3;
+    }
+
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .btn-amber {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--bg);
+      background: var(--amber);
+      border: 1px solid var(--amber);
+      padding: 12px 28px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+
+    .btn-amber:hover {
+      background: transparent;
+      color: var(--amber);
+    }
+
+    .btn-cyan {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--cyan);
+      background: transparent;
+      border: 1px solid var(--cyan);
+      padding: 12px 28px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+
+    .btn-cyan:hover {
+      background: var(--cyan);
+      color: var(--bg);
+    }
+
+    footer {
+      border-top: var(--border-dim);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+    }
+
+    .footer-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-status {
+      color: var(--green);
+    }
+
+    .footer-cursor {
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       KEYFRAMES
+    ══════════════════════════════════════════════════════════════════ */
+    @keyframes typewriter {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    @keyframes cursor-blink {
+      0%, 100% { border-right-color: var(--green); }
+      50%      { border-right-color: transparent; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0; }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes scanline-sweep {
+      0%   { background-position: 0 -100%; }
+      100% { background-position: 0 100%; }
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      nav .nav-links { gap: 16px; }
+
+      section { padding: 56px 16px; }
+
+      #hero { padding: 64px 16px; }
+
+      .hero-headline {
+        font-size: clamp(16px, 5vw, 24px);
+        animation:
+          typewriter 2.4s steps(54, end) 0.4s forwards,
+          cursor-blink 0.8s step-end 2.8s infinite;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-step { font-size: 12px; gap: 8px; }
+      .step-status { display: none; }
+
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .btn-amber, .btn-cyan { text-align: center; }
+
+      footer { padding: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────────── -->
+  <nav>
+    <a href="#" class="nav-logo">[LUMENIQ]</a>
+    <ul class="nav-links">
+      <li><a href="#features">[PRODUCT]</a></li>
+      <li><a href="#process">[PRIVACY]</a></li>
+      <li><a href="#cta">[CONTACT]</a></li>
+      <li><span class="nav-cursor">█</span></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-label">// LUMENIQ_v1.0 — SYSTEM READY</p>
+      <h1 class="hero-headline mono-display">REAL-TIME TRANSLATION. ZERO CLOUD. FULL PRIVACY.</h1>
+      <p class="hero-sub">Edge AI. On-device. Always offline.</p>
+      <a href="#features" class="hero-cta">[INITIALIZE DEMO]</a>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ─────────────────────────────────────────────────── -->
+  <section id="features">
+    <p class="section-label reveal">[PRODUCT_CAPABILITIES]</p>
+    <div class="features-grid">
+
+      <div class="feature-card reveal">
+        <div class="card-icon">[ ◉ ]</div>
+        <div class="card-title">[OFFLINE_FIRST]</div>
+        <p class="card-desc">Zero internet required. AI runs entirely on-device with no cloud dependency.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="card-icon">[ ⊘ ]</div>
+        <div class="card-title">[PRIVACY_MODE]</div>
+        <p class="card-desc">No data leaves the room. Ever. End-to-end air-gapped by design.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="card-icon">[ ⟶ ]</div>
+        <div class="card-title">[EDGE_AI]</div>
+        <p class="card-desc">Speech-to-text → translate → voice output. Real-time, sub-second latency.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="card-icon">[ ⊞ ]</div>
+        <div class="card-title">[MULTI_LANG]</div>
+        <p class="card-desc">100+ language pairs. Instant switching with no reconfiguration needed.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="card-icon">[ ▣ ]</div>
+        <div class="card-title">[HARDWARE]</div>
+        <p class="card-desc">Purpose-built device. Plug in. Speak. Done. No software setup required.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="card-icon">[ ⊛ ]</div>
+        <div class="card-title">[ENTERPRISE]</div>
+        <p class="card-desc">Built for hospitals, government offices, and embassies. Compliance-ready.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PROCESS LOG ───────────────────────────────────────────────── -->
+  <section id="process">
+    <p class="section-label reveal">[PROCESS_LOG]</p>
+    <div class="process-terminal reveal">
+      <div class="terminal-bar">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="terminal-title">lumeniq@device:~$ ./translate --live</span>
+      </div>
+      <div class="process-body">
+        <div class="process-step" data-delay="0">
+          <span class="step-prompt">&gt;</span>
+          <span class="step-num">[01]</span>
+          <span class="step-action">AUDIO_INPUT detected — microphone stream active...</span>
+          <span class="step-status">OK</span>
+        </div>
+        <div class="process-step" data-delay="200">
+          <span class="step-prompt">&gt;</span>
+          <span class="step-num">[02]</span>
+          <span class="step-action">Speech-to-text converting — on-device ASR model loaded...</span>
+          <span class="step-status">OK</span>
+        </div>
+        <div class="process-step" data-delay="400">
+          <span class="step-prompt">&gt;</span>
+          <span class="step-num">[03]</span>
+          <span class="step-action">Translation model running locally — no network calls...</span>
+          <span class="step-status">OK</span>
+        </div>
+        <div class="process-step" data-delay="600">
+          <span class="step-prompt">&gt;</span>
+          <span class="step-num">[04]</span>
+          <span class="step-action">Output rendered on display + audio — latency &lt;300ms...</span>
+          <span class="step-status">OK</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── USE CASES ─────────────────────────────────────────────────── -->
+  <section id="usecases">
+    <p class="section-label reveal">[SYSTEM_REPORT]</p>
+    <div class="table-wrap reveal">
+      <table class="use-table" aria-label="Use cases by sector">
+        <thead>
+          <tr>
+            <th>SECTOR</th>
+            <th>STATUS</th>
+            <th>BENEFIT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-sector">Healthcare</td>
+            <td class="td-status">ACTIVE</td>
+            <td class="td-benefit">Patient privacy ensured — no third-party data exposure</td>
+          </tr>
+          <tr>
+            <td class="td-sector">Government</td>
+            <td class="td-status">ACTIVE</td>
+            <td class="td-benefit">Secure communication across classified environments</td>
+          </tr>
+          <tr>
+            <td class="td-sector">Education</td>
+            <td class="td-status">ACTIVE</td>
+            <td class="td-benefit">Accessible multilingual learning in any facility</td>
+          </tr>
+          <tr>
+            <td class="td-sector">Enterprise</td>
+            <td class="td-status">ACTIVE</td>
+            <td class="td-benefit">International teams — no interpreter overhead</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── CTA & FOOTER ──────────────────────────────────────────────── -->
+  <div id="cta">
+    <div class="cta-inner reveal">
+      <h2 class="cta-headline mono-display">READY TO ELIMINATE THE LANGUAGE BARRIER?</h2>
+      <div class="cta-buttons">
+        <a href="#contact" class="btn-amber">[REQUEST ACCESS]</a>
+        <a href="#docs" class="btn-cyan">[READ DOCUMENTATION]</a>
+      </div>
+    </div>
+    <footer>
+      <p class="footer-line">
+        &copy; 2025 LUMENIQ SYSTEMS &mdash;
+        <span class="footer-status">[STATUS: OPERATIONAL <span class="footer-cursor">█</span>]</span>
+      </p>
+    </footer>
+  </div>
+
+  <!-- ── JS ───────────────────────────────────────────────────────── -->
+  <script>
+    // Scroll fade-in (generic .reveal elements)
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Process log steps — stagger on scroll
+    const stepObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const steps = entry.target.querySelectorAll('.process-step');
+          steps.forEach(step => {
+            const delay = parseInt(step.dataset.delay, 10) || 0;
+            setTimeout(() => step.classList.add('visible'), delay);
+          });
+          stepObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    const processTerm = document.querySelector('.process-terminal');
+    if (processTerm) stepObserver.observe(processTerm);
+  </script>
+
+</body>
+</html>
