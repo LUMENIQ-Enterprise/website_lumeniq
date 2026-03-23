@@ -15,16 +15,23 @@
     }
 
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --text: #f0f0f0;
-      --text-muted: #888888;
-      --green: #00ff9f;
-      --cyan: #00cfff;
-      --amber: #ffe135;
-      --border: 1px solid #00ff9f;
-      --border-cyan: 1px solid #00cfff;
-      --border-dim: 1px solid #222222;
+      --bg: #000000;
+      --surface: #060606;
+      --surface-elev: #0b0b0b;
+      --text: #f7f7f7;
+      --text-muted: #b8b8b8;
+      --text-dim: #7c7c7c;
+      --line-strong: #3a3a3a;
+      --line: #242424;
+      --line-soft: #161616;
+      --accent-sage: #86b29a;
+      --accent-steel: #88a8bf;
+      --accent-sand: #bca883;
+      --accent-plum: #9b8eac;
+      --accent-copper: #b2907d;
+      --accent-mist: #8fb6b1;
+      --border: 1px solid var(--line-strong);
+      --border-dim: 1px solid var(--line);
       --font-display: 'JetBrains Mono', monospace;
       --font-body: 'IBM Plex Mono', monospace;
     }
@@ -43,13 +50,13 @@
     }
 
     a {
-      color: var(--green);
+      color: #d6d9d6;
       text-decoration: none;
     }
 
     a:focus-visible,
     button:focus-visible {
-      outline: 2px solid var(--amber);
+      outline: 2px solid var(--text);
       outline-offset: 3px;
     }
 
@@ -73,7 +80,7 @@
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 16px;
-      color: var(--green);
+      color: #e5e8e5;
       letter-spacing: 0.04em;
       text-decoration: none;
     }
@@ -95,13 +102,13 @@
     }
 
     .nav-links a:hover {
-      color: var(--green);
+      color: var(--accent-mist);
     }
 
     .nav-cursor {
       display: inline-block;
-      color: var(--green);
-      animation: blink 1s step-end infinite;
+      color: #878294;
+      animation: blink 1.2s step-end infinite;
       font-family: var(--font-display);
       font-size: 14px;
       margin-left: 6px;
@@ -127,8 +134,8 @@
           0deg,
           transparent,
           transparent 2px,
-          rgba(0, 255, 159, 0.015) 2px,
-          rgba(0, 255, 159, 0.015) 4px
+          rgba(168, 181, 172, 0.014) 2px,
+          rgba(168, 181, 172, 0.014) 4px
         );
       pointer-events: none;
       z-index: 0;
@@ -140,11 +147,11 @@
       background: linear-gradient(
         to bottom,
         transparent 0%,
-        rgba(0, 255, 159, 0.04) 50%,
+        rgba(158, 170, 179, 0.03) 50%,
         transparent 100%
       );
       background-size: 100% 200%;
-      animation: scanline-move 6s linear infinite;
+      animation: scanline-move 9s linear infinite;
       pointer-events: none;
       z-index: 1;
     }
@@ -158,7 +165,7 @@
     .hero-label {
       font-family: var(--font-display);
       font-size: 11px;
-      color: var(--text-muted);
+      color: #98b9b0;
       letter-spacing: 0.12em;
       margin-bottom: 24px;
     }
@@ -167,7 +174,7 @@
       font-family: var(--font-display);
       font-size: clamp(24px, 4vw, 44px);
       font-weight: 700;
-      color: var(--green);
+      color: #eef4f0;
       letter-spacing: 0.02em;
       line-height: 1.2;
       margin-bottom: 20px;
@@ -179,10 +186,10 @@
       display: inline-block;
       overflow: hidden;
       white-space: nowrap;
-      border-right: 3px solid var(--green);
+      border-right: 2px solid #a5aea7;
       animation:
         typing 2.4s steps(52, end) forwards,
-        cursor-blink 0.8s step-end infinite;
+        cursor-blink 1s step-end infinite;
       max-width: 100%;
     }
 
@@ -193,7 +200,7 @@
     .hero-sub {
       font-family: var(--font-body);
       font-size: 14px;
-      color: var(--text-muted);
+      color: #acb7c2;
       margin-bottom: 36px;
       letter-spacing: 0.04em;
     }
@@ -205,8 +212,8 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--bg);
-      background: var(--amber);
-      border: 1px solid var(--amber);
+      background: #d7ddd9;
+      border: 1px solid #d7ddd9;
       padding: 12px 28px;
       cursor: pointer;
       transition: background 150ms ease, color 150ms ease;
@@ -214,11 +221,11 @@
 
     .hero-cta:hover {
       background: transparent;
-      color: var(--amber);
+      color: #d7ddd9;
     }
 
     .hero-cta:focus-visible {
-      outline: 2px solid var(--amber);
+      outline: 2px solid var(--text);
       outline-offset: 3px;
     }
 
@@ -231,7 +238,7 @@
       font-family: var(--font-display);
       font-size: 11px;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--accent-steel);
       letter-spacing: 0.14em;
       margin-bottom: 40px;
       display: flex;
@@ -239,11 +246,15 @@
       gap: 12px;
     }
 
+    #features .section-label { color: var(--accent-sage); }
+    #process .section-label { color: var(--accent-steel); }
+    #usecases .section-label { color: var(--accent-sand); }
+
     .section-label::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: #1e1e1e;
+      background: var(--line);
     }
 
     /* ── FEATURES ── */
@@ -255,8 +266,9 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: #1a1a1a;
+      background: var(--line-soft);
       border: var(--border-dim);
+      box-shadow: inset 1px 0 0 rgba(134, 178, 154, 0.5);
     }
 
     .feature-card {
@@ -267,7 +279,7 @@
     }
 
     .feature-card:hover {
-      background: #0e0e0e;
+      background: var(--surface-elev);
     }
 
     .feature-card::before {
@@ -275,7 +287,7 @@
       position: absolute;
       top: 8px;
       left: 8px;
-      color: #2a2a2a;
+      color: var(--line-strong);
       font-family: var(--font-display);
       font-size: 10px;
       line-height: 1;
@@ -286,7 +298,7 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      color: #2a2a2a;
+      color: var(--line-strong);
       font-family: var(--font-display);
       font-size: 10px;
       line-height: 1;
@@ -305,6 +317,7 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       margin-bottom: 10px;
+      color: #dee8e3;
     }
 
     .feature-desc {
@@ -313,9 +326,9 @@
       line-height: 1.6;
     }
 
-    .accent-green { color: var(--green); }
-    .accent-cyan  { color: var(--cyan); }
-    .accent-amber { color: var(--amber); }
+    .accent-green { color: var(--accent-sage); }
+    .accent-cyan  { color: var(--accent-steel); }
+    .accent-amber { color: var(--accent-sand); }
 
     /* ── PROCESS LOG ── */
     #process {
@@ -329,6 +342,7 @@
       gap: 0;
       border: var(--border-dim);
       overflow: hidden;
+      box-shadow: inset 1px 0 0 rgba(136, 168, 191, 0.5);
     }
 
     .log-entry {
@@ -351,7 +365,7 @@
     }
 
     .log-prompt {
-      color: var(--green);
+      color: #b4d2c5;
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 13px;
@@ -362,7 +376,7 @@
     .log-step {
       font-family: var(--font-display);
       font-size: 12px;
-      color: var(--cyan);
+      color: #9aa3bc;
       font-weight: 600;
       flex-shrink: 0;
       letter-spacing: 0.06em;
@@ -377,7 +391,7 @@
       margin-left: auto;
       font-family: var(--font-display);
       font-size: 11px;
-      color: var(--green);
+      color: #b5a894;
       flex-shrink: 0;
       letter-spacing: 0.08em;
     }
@@ -393,6 +407,7 @@
       border: var(--border-dim);
       font-family: var(--font-display);
       font-size: 12px;
+      box-shadow: inset 1px 0 0 rgba(188, 168, 131, 0.5);
     }
 
     .report-table thead tr {
@@ -419,11 +434,15 @@
     }
 
     .report-table tbody tr:hover td {
-      background: #0e0e0e;
+      background: var(--surface-elev);
     }
 
-    .row-green .sector { color: var(--green); }
-    .row-cyan  .sector { color: var(--cyan); }
+    .report-table tbody tr:nth-child(even) td {
+      background: #040404;
+    }
+
+    .row-green .sector { color: var(--accent-sage); }
+    .row-cyan  .sector { color: var(--accent-steel); }
 
     .status-badge {
       display: inline-block;
@@ -434,8 +453,8 @@
       border: 1px solid currentColor;
     }
 
-    .status-badge.green { color: var(--green); }
-    .status-badge.cyan  { color: var(--cyan); }
+    .status-badge.green { color: #a4cab6; }
+    .status-badge.cyan  { color: #9ebdd2; }
 
     .benefit-text {
       color: var(--text-muted);
@@ -452,7 +471,7 @@
       font-family: var(--font-display);
       font-size: clamp(16px, 2.5vw, 26px);
       font-weight: 700;
-      color: var(--text);
+      color: #dcd6e6;
       letter-spacing: 0.04em;
       margin-bottom: 36px;
       max-width: 640px;
@@ -463,6 +482,8 @@
       gap: 16px;
       flex-wrap: wrap;
       margin-bottom: 64px;
+      padding-left: 12px;
+      border-left: 1px solid rgba(155, 142, 172, 0.55);
     }
 
     .btn-primary {
@@ -471,8 +492,8 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--bg);
-      background: var(--amber);
-      border: 1px solid var(--amber);
+      background: #c0d8cb;
+      border: 1px solid #c0d8cb;
       padding: 12px 24px;
       cursor: pointer;
       transition: background 150ms ease, color 150ms ease;
@@ -482,7 +503,7 @@
 
     .btn-primary:hover {
       background: transparent;
-      color: var(--amber);
+      color: #c0d8cb;
     }
 
     .btn-outline {
@@ -490,9 +511,9 @@
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.1em;
-      color: var(--cyan);
+      color: #bca8c7;
       background: transparent;
-      border: 1px solid var(--cyan);
+      border: 1px solid #695a73;
       padding: 12px 24px;
       cursor: pointer;
       transition: background 150ms ease, color 150ms ease;
@@ -501,13 +522,13 @@
     }
 
     .btn-outline:hover {
-      background: var(--cyan);
+      background: #bca8c7;
       color: var(--bg);
     }
 
     .btn-primary:focus-visible,
     .btn-outline:focus-visible {
-      outline: 2px solid var(--amber);
+      outline: 2px solid var(--text);
       outline-offset: 3px;
     }
 
@@ -524,13 +545,13 @@
     }
 
     .status-operational {
-      color: var(--green);
+      color: #b9a891;
     }
 
     .footer-cursor {
       display: inline-block;
-      color: var(--green);
-      animation: blink 1s step-end infinite;
+      color: #8a8294;
+      animation: blink 1.2s step-end infinite;
     }
 
     /* ── SCROLL FADE ── */
@@ -550,7 +571,7 @@
     }
 
     @keyframes cursor-blink {
-      0%, 100% { border-color: var(--green); }
+      0%, 100% { border-color: #a5aea7; }
       50%       { border-color: transparent; }
     }
 
