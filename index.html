@@ -15,16 +15,16 @@
     }
 
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --text: #f0f0f0;
+      --bg: #000000;
+      --surface: #0d0d0d;
+      --text: #ffffff;
       --text-muted: #888888;
       --green: #00ff9f;
       --cyan: #00cfff;
       --amber: #ffe135;
       --border: 1px solid #00ff9f;
       --border-cyan: 1px solid #00cfff;
-      --border-dim: 1px solid #222222;
+      --border-dim: 1px solid #2a2a2a;
       --font-display: 'JetBrains Mono', monospace;
       --font-body: 'IBM Plex Mono', monospace;
     }
@@ -119,39 +119,7 @@
       overflow: hidden;
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(0, 255, 159, 0.015) 2px,
-          rgba(0, 255, 159, 0.015) 4px
-        );
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .scanline-sweep {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(0, 255, 159, 0.04) 50%,
-        transparent 100%
-      );
-      background-size: 100% 200%;
-      animation: scanline-move 6s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-
     .hero-content {
-      position: relative;
-      z-index: 2;
       max-width: 860px;
     }
 
@@ -234,17 +202,31 @@
       color: var(--text-muted);
       letter-spacing: 0.14em;
       margin-bottom: 40px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #1e1e1e;
+    /* ── RATATUI PANELS ── */
+    .ratu-panel {
+      position: relative;
+      border: 1px solid #2a2a2a;
+      padding: 32px 24px 24px;
     }
+
+    .ratu-title {
+      position: absolute;
+      top: -8px;
+      left: 16px;
+      background: var(--bg);
+      padding: 0 8px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.14em;
+    }
+
+    .ratu-title.green { color: var(--green); }
+    .ratu-title.cyan  { color: var(--cyan); }
+    .ratu-title.amber { color: var(--amber); }
 
     /* ── FEATURES ── */
     #features {
@@ -267,7 +249,7 @@
     }
 
     .feature-card:hover {
-      background: #0e0e0e;
+      background: #080808;
     }
 
     .feature-card::before {
@@ -275,7 +257,7 @@
       position: absolute;
       top: 8px;
       left: 8px;
-      color: #2a2a2a;
+      color: #3a3a3a;
       font-family: var(--font-display);
       font-size: 10px;
       line-height: 1;
@@ -286,7 +268,7 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      color: #2a2a2a;
+      color: #3a3a3a;
       font-family: var(--font-display);
       font-size: 10px;
       line-height: 1;
@@ -320,6 +302,10 @@
     /* ── PROCESS LOG ── */
     #process {
       border-top: var(--border-dim);
+      background: var(--surface);
+    }
+
+    #process .ratu-title {
       background: var(--surface);
     }
 
@@ -419,7 +405,7 @@
     }
 
     .report-table tbody tr:hover td {
-      background: #0e0e0e;
+      background: #080808;
     }
 
     .row-green .sector { color: var(--green); }
@@ -462,7 +448,7 @@
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 64px;
+      margin-bottom: 0;
     }
 
     .btn-primary {
@@ -521,6 +507,7 @@
       gap: 8px;
       border-top: var(--border-dim);
       padding-top: 24px;
+      margin-top: 32px;
     }
 
     .status-operational {
@@ -557,11 +544,6 @@
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
-    }
-
-    @keyframes scanline-move {
-      0%   { background-position: 0 -100%; }
-      100% { background-position: 0 200%; }
     }
 
     /* ── MOBILE ── */
@@ -645,10 +627,9 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="scanline-sweep"></div>
-    <div class="hero-content">
-      <p class="hero-label">// [LUMENIQ_v1.0] — SYSTEM BOOT COMPLETE</p>
+    <div class="hero-content ratu-panel">
+      <span class="ratu-title green">[LUMENIQ_v1.0] — TERMINAL</span>
+      <p class="hero-label">// SYSTEM BOOT COMPLETE</p>
       <h1 class="hero-headline">
         <span class="typewriter-text" id="typewriter">REAL-TIME TRANSLATION. ZERO CLOUD. FULL PRIVACY.</span>
       </h1>
@@ -659,8 +640,9 @@
 
   <!-- FEATURES -->
   <section id="features" class="fade-in">
-    <p class="section-label">[PRODUCT_CAPABILITIES]</p>
-    <div class="feature-grid">
+    <div class="ratu-panel">
+      <span class="ratu-title">[PRODUCT_CAPABILITIES]</span>
+      <div class="feature-grid">
 
       <div class="feature-card">
         <div class="feature-icon accent-green">▓▓▓<br>▓░▓<br>▓▓▓</div>
@@ -698,13 +680,15 @@
         <p class="feature-desc">Built for hospitals, government offices, and embassies. Compliance-ready.</p>
       </div>
 
-    </div>
+    </div><!-- end feature-grid -->
+    </div><!-- end ratu-panel -->
   </section>
 
   <!-- PROCESS LOG -->
   <section id="process">
-    <p class="section-label">[PROCESS_LOG]</p>
-    <div class="process-log" id="processLog">
+    <div class="ratu-panel">
+      <span class="ratu-title cyan">[PROCESS_LOG]</span>
+      <div class="process-log" id="processLog">
 
       <div class="log-entry" data-delay="0">
         <span class="log-prompt">&gt;</span>
@@ -734,13 +718,15 @@
         <span class="log-status">OK</span>
       </div>
 
-    </div>
+    </div><!-- end process-log -->
+    </div><!-- end ratu-panel -->
   </section>
 
   <!-- USE CASES -->
   <section id="usecases" class="fade-in">
-    <p class="section-label">[SYSTEM_REPORT — SECTOR_ANALYSIS]</p>
-    <table class="report-table">
+    <div class="ratu-panel">
+      <span class="ratu-title">[SYSTEM_REPORT — SECTOR_ANALYSIS]</span>
+      <table class="report-table">
       <thead>
         <tr>
           <th>SECTOR</th>
@@ -771,15 +757,19 @@
         </tr>
       </tbody>
     </table>
+    </div><!-- end ratu-panel -->
   </section>
 
   <!-- CTA / FOOTER -->
   <section id="cta">
-    <p class="cta-headline">READY TO ELIMINATE THE LANGUAGE BARRIER?</p>
-    <div class="cta-actions">
-      <a href="#" class="btn-primary">[REQUEST_ACCESS]</a>
-      <a href="#" class="btn-outline">[READ_DOCUMENTATION]</a>
-    </div>
+    <div class="ratu-panel">
+      <span class="ratu-title amber">[INITIALIZE_CONTACT]</span>
+      <p class="cta-headline">READY TO ELIMINATE THE LANGUAGE BARRIER?</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary">[REQUEST_ACCESS]</a>
+        <a href="#" class="btn-outline">[READ_DOCUMENTATION]</a>
+      </div>
+    </div><!-- end ratu-panel -->
     <div class="footer-line">
       <span>© 2025 LUMENIQ SYSTEMS</span>
       <span>—</span>
