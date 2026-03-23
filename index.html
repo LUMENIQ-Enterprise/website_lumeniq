@@ -3,11 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[LUMENIQ_v1.0] — Real-Time AI Translation. Offline. Private.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <title>LUMENIQ | Offline AI Translation for Regulated Teams</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css" />
   <style>
+    @font-face {
+      font-family: 'Geist Pixel Square';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.7.0/dist/fonts/geist-pixel/GeistPixel-Square.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Geist Pixel Line';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.7.0/dist/fonts/geist-pixel/GeistPixel-Line.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -15,18 +31,24 @@
     }
 
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --text: #f0f0f0;
-      --text-muted: #888888;
-      --green: #00ff9f;
-      --cyan: #00cfff;
-      --amber: #ffe135;
-      --border: 1px solid #00ff9f;
-      --border-cyan: 1px solid #00cfff;
-      --border-dim: 1px solid #222222;
-      --font-display: 'JetBrains Mono', monospace;
-      --font-body: 'IBM Plex Mono', monospace;
+      --bg: #000000;
+      --surface-1: #070707;
+      --surface-2: #101010;
+      --line: #262626;
+      --line-strong: #3d3d3d;
+      --text: #f1f2f1;
+      --text-muted: #b5b8b6;
+      --text-dim: #858b88;
+      --accent-mint: #86b89f;
+      --accent-steel: #8faec4;
+      --accent-sand: #c1ab87;
+      --accent-plum: #a494b7;
+      --accent-copper: #bc957f;
+      --radius: 10px;
+      --container: 1160px;
+      --font-display: 'Geist Mono', 'GeistMono', 'GeistMonoVF', monospace;
+      --font-body: 'Geist Sans', 'Geist', 'GeistSans', 'GeistSansVF', system-ui, sans-serif;
+      --font-pixel: 'Geist Pixel Square', 'Geist Pixel Line', var(--font-display);
     }
 
     html {
@@ -34,802 +56,1137 @@
     }
 
     body {
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 84% 8%, rgba(143, 174, 196, 0.13), transparent 34%),
+        radial-gradient(circle at 8% 82%, rgba(164, 148, 183, 0.12), transparent 36%),
+        var(--bg);
       color: var(--text);
       font-family: var(--font-body);
       font-size: 14px;
-      line-height: 1.7;
+      line-height: 1.65;
+      font-feature-settings: 'ss01' 1, 'cv11' 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
-    a {
-      color: var(--green);
-      text-decoration: none;
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid var(--amber);
-      outline-offset: 3px;
-    }
-
-    /* ── NAV ── */
-    nav {
+    .scan {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      height: 52px;
-    }
-
-    .nav-logo {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--green);
-      letter-spacing: 0.04em;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-      align-items: center;
-    }
-
-    .nav-links a {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-      transition: color 150ms ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--green);
-    }
-
-    .nav-cursor {
-      display: inline-block;
-      color: var(--green);
-      animation: blink 1s step-end infinite;
-      font-family: var(--font-display);
-      font-size: 14px;
-      margin-left: 6px;
-    }
-
-    /* ── HERO ── */
-    #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0 40px;
-      padding-top: 52px;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
       inset: 0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(0, 255, 159, 0.015) 2px,
-          rgba(0, 255, 159, 0.015) 4px
-        );
       pointer-events: none;
       z-index: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(143, 174, 196, 0.018) 2px,
+        rgba(143, 174, 196, 0.018) 4px
+      );
+      opacity: 0.75;
     }
 
-    .scanline-sweep {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(0, 255, 159, 0.04) 50%,
-        transparent 100%
-      );
-      background-size: 100% 200%;
-      animation: scanline-move 6s linear infinite;
-      pointer-events: none;
+    .container {
+      width: min(var(--container), 100% - 40px);
+      margin-inline: auto;
+      position: relative;
       z-index: 1;
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 860px;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .hero-label {
-      font-family: var(--font-display);
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.12em;
-      margin-bottom: 24px;
+    button, input, select {
+      font: inherit;
+      color: inherit;
     }
 
-    .hero-headline {
-      font-family: var(--font-display);
-      font-size: clamp(24px, 4vw, 44px);
-      font-weight: 700;
-      color: var(--green);
-      letter-spacing: 0.02em;
-      line-height: 1.2;
-      margin-bottom: 20px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .typewriter-text {
-      display: inline-block;
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 3px solid var(--green);
-      animation:
-        typing 2.4s steps(52, end) forwards,
-        cursor-blink 0.8s step-end infinite;
-      max-width: 100%;
-    }
-
-    .typewriter-done {
-      border-right: none;
-    }
-
-    .hero-sub {
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 36px;
-      letter-spacing: 0.04em;
-    }
-
-    .hero-cta {
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--bg);
-      background: var(--amber);
-      border: 1px solid var(--amber);
-      padding: 12px 28px;
-      cursor: pointer;
-      transition: background 150ms ease, color 150ms ease;
-    }
-
-    .hero-cta:hover {
-      background: transparent;
-      color: var(--amber);
-    }
-
-    .hero-cta:focus-visible {
-      outline: 2px solid var(--amber);
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--text);
       outline-offset: 3px;
     }
 
-    /* ── SECTION BASE ── */
-    section {
-      padding: 80px 40px;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line-strong);
+      backdrop-filter: blur(7px);
+      background: rgba(0, 0, 0, 0.84);
     }
 
-    .section-label {
+    .nav {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--accent-mint);
+      font-size: 15px;
+      white-space: nowrap;
+    }
+
+    .logo-img-wrap {
+      width: 34px;
+      height: 30px;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+    }
+
+    .logo-wordmark {
+      display: inline-block;
+      line-height: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 22px;
       color: var(--text-muted);
-      letter-spacing: 0.14em;
-      margin-bottom: 40px;
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-steel);
+    }
+
+    .nav-cta {
+      padding: 8px 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      color: var(--accent-sand);
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      transition: border-color 150ms ease, color 150ms ease;
+    }
+
+    .nav-cta:hover {
+      border-color: var(--accent-sand);
+      color: #e6d8c0;
+    }
+
+    section {
+      padding: 74px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .label {
       display: flex;
       align-items: center;
       gap: 12px;
-    }
-
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #1e1e1e;
-    }
-
-    /* ── FEATURES ── */
-    #features {
-      border-top: var(--border-dim);
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: #1a1a1a;
-      border: var(--border-dim);
-    }
-
-    .feature-card {
-      background: var(--bg);
-      padding: 28px 24px;
-      position: relative;
-      transition: background 150ms ease;
-    }
-
-    .feature-card:hover {
-      background: #0e0e0e;
-    }
-
-    .feature-card::before {
-      content: '┌─';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      color: #2a2a2a;
-      font-family: var(--font-display);
-      font-size: 10px;
-      line-height: 1;
-    }
-
-    .feature-card::after {
-      content: '─┐';
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      color: #2a2a2a;
-      font-family: var(--font-display);
-      font-size: 10px;
-      line-height: 1;
-    }
-
-    .feature-icon {
-      font-family: var(--font-display);
-      font-size: 18px;
-      margin-bottom: 14px;
-      line-height: 1;
-    }
-
-    .feature-title {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--text-dim);
+      font-family: var(--font-pixel);
+      font-size: 11px;
       letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .label::after {
+      content: '';
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    #hero {
+      border-top: none;
+      min-height: calc(100vh - 56px);
+      display: grid;
+      align-items: center;
+      padding-top: 42px;
+      padding-bottom: 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+    }
+
+    .hero-copy h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(28px, 5vw, 52px);
+      line-height: 1.14;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+      color: #edf2ef;
+      max-width: 15ch;
+    }
+
+    .hero-copy p {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 56ch;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .btn-main,
+    .btn-sub {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 160ms ease;
+    }
+
+    .btn-main {
+      background: #bed6c8;
+      border-color: #bed6c8;
+      color: #07100b;
+    }
+
+    .btn-main:hover {
+      background: transparent;
+      color: #bed6c8;
+    }
+
+    .btn-sub {
+      border-color: #5b6571;
+      color: #abc0d1;
+      background: rgba(143, 174, 196, 0.08);
+    }
+
+    .btn-sub:hover {
+      background: #abc0d1;
+      color: #0b1115;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--text-dim);
+      font-size: 12px;
+    }
+
+    .hero-meta span {
+      font-family: var(--font-pixel);
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero-panel {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: linear-gradient(155deg, rgba(164, 148, 183, 0.14), rgba(143, 174, 196, 0.05));
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .hero-panel h2 {
+      font-family: var(--font-pixel);
+      font-size: 14px;
+      letter-spacing: 0.07em;
+      color: var(--accent-plum);
+      text-transform: uppercase;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.36);
+    }
+
+    .metric strong {
+      display: block;
+      font-family: var(--font-pixel);
+      font-size: 18px;
+      letter-spacing: 0.03em;
+      color: #e8ecea;
+    }
+
+    .metric small {
+      color: var(--text-dim);
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    #trust {
+      padding-top: 34px;
+      padding-bottom: 34px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .trust-item {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      min-height: 56px;
+      display: grid;
+      place-items: center;
+      color: #94a0aa;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      background: var(--surface-1);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-1);
+      padding: 18px;
+    }
+
+    .problem-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .problem-list li {
+      border-left: 2px solid #6a586f;
+      padding-left: 12px;
+      color: var(--text-muted);
+    }
+
+    .card h3 {
+      font-family: var(--font-display);
+      letter-spacing: 0.05em;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #dde5e0;
+    }
+
+    .outcomes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .outcome {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-2);
+      padding: 14px;
+    }
+
+    .outcome strong {
+      display: block;
+      font-family: var(--font-pixel);
+      font-size: 20px;
+      letter-spacing: 0.03em;
+      color: #e4ebea;
+      margin-bottom: 2px;
+    }
+
+    .outcome small {
+      font-family: var(--font-pixel);
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 11px;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .quote {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: rgba(15, 16, 16, 0.9);
+    }
+
+    .quote p {
+      color: #ccd2d0;
       margin-bottom: 10px;
     }
 
-    .feature-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .accent-green { color: var(--green); }
-    .accent-cyan  { color: var(--cyan); }
-    .accent-amber { color: var(--amber); }
-
-    /* ── PROCESS LOG ── */
-    #process {
-      border-top: var(--border-dim);
-      background: var(--surface);
-    }
-
-    .process-log {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: var(--border-dim);
-      overflow: hidden;
-    }
-
-    .log-entry {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 18px 24px;
-      border-bottom: var(--border-dim);
-      opacity: 0;
-      transform: none;
-      transition: opacity 0.6s ease;
-    }
-
-    .log-entry:last-child {
-      border-bottom: none;
-    }
-
-    .log-entry.visible {
-      opacity: 1;
-    }
-
-    .log-prompt {
-      color: var(--green);
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 13px;
-      flex-shrink: 0;
-      min-width: 20px;
-    }
-
-    .log-step {
-      font-family: var(--font-display);
+    .quote span {
+      color: var(--accent-copper);
       font-size: 12px;
-      color: var(--cyan);
-      font-weight: 600;
-      flex-shrink: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-1);
+      padding: 14px;
+    }
+
+    .step-num {
+      font-family: var(--font-pixel);
+      color: var(--accent-steel);
+      font-size: 12px;
+      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .plan {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-1);
+      padding: 18px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .plan.featured {
+      border-color: #5f7688;
+      box-shadow: 0 0 0 1px rgba(143, 174, 196, 0.35) inset;
+      background: linear-gradient(170deg, rgba(143, 174, 196, 0.12), rgba(13, 13, 13, 1));
+    }
+
+    .plan h3 {
+      font-family: var(--font-pixel);
+      font-size: 14px;
+      color: #dbe5eb;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .price {
+      font-family: var(--font-pixel);
+      font-size: 28px;
+      letter-spacing: 0.03em;
+      color: #ecf2f0;
+    }
+
+    .price small {
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .plan ul {
+      list-style: none;
+      display: grid;
+      gap: 7px;
+      color: var(--text-muted);
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .plan li {
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .plan li::before {
+      content: '+';
+      position: absolute;
+      left: 0;
+      color: var(--accent-mint);
+    }
+
+    .roi {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, rgba(134, 184, 159, 0.14), rgba(0, 0, 0, 0.8));
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .roi h3 {
+      font-family: var(--font-display);
+      color: #d6e4dc;
+      font-size: 14px;
       letter-spacing: 0.06em;
     }
 
-    .log-text {
-      font-size: 13px;
-      color: var(--text-muted);
+    .roi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
 
-    .log-status {
-      margin-left: auto;
-      font-family: var(--font-display);
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    label {
       font-size: 11px;
-      color: var(--green);
-      flex-shrink: 0;
-      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      font-family: var(--font-pixel);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
-    /* ── USE CASES ── */
-    #usecases {
-      border-top: var(--border-dim);
+    input,
+    select {
+      border: 1px solid #44535f;
+      border-radius: 6px;
+      background: #050607;
+      padding: 9px 10px;
     }
 
-    .report-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: var(--border-dim);
-      font-family: var(--font-display);
+    .roi-output {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px dashed #4f6a5c;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #d7e8de;
+      font-family: var(--font-pixel);
       font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
-    .report-table thead tr {
-      border-bottom: var(--border);
+    details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-1);
+      padding: 10px 12px;
     }
 
-    .report-table th {
-      padding: 14px 20px;
-      text-align: left;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      font-weight: 600;
-      font-size: 11px;
+    details + details {
+      margin-top: 8px;
     }
 
-    .report-table td {
-      padding: 14px 20px;
-      border-bottom: var(--border-dim);
-      vertical-align: middle;
-    }
-
-    .report-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .report-table tbody tr:hover td {
-      background: #0e0e0e;
-    }
-
-    .row-green .sector { color: var(--green); }
-    .row-cyan  .sector { color: var(--cyan); }
-
-    .status-badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      padding: 3px 8px;
-      border: 1px solid currentColor;
-    }
-
-    .status-badge.green { color: var(--green); }
-    .status-badge.cyan  { color: var(--cyan); }
-
-    .benefit-text {
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    /* ── FOOTER / CTA ── */
-    #cta {
-      border-top: var(--border);
-      padding: 80px 40px 60px;
-    }
-
-    .cta-headline {
+    summary {
+      cursor: pointer;
       font-family: var(--font-display);
-      font-size: clamp(16px, 2.5vw, 26px);
-      font-weight: 700;
-      color: var(--text);
+      color: #dde4e1;
+      font-size: 12px;
       letter-spacing: 0.04em;
-      margin-bottom: 36px;
-      max-width: 640px;
     }
 
-    .cta-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 64px;
-    }
-
-    .btn-primary {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--bg);
-      background: var(--amber);
-      border: 1px solid var(--amber);
-      padding: 12px 24px;
-      cursor: pointer;
-      transition: background 150ms ease, color 150ms ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--amber);
-    }
-
-    .btn-outline {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--cyan);
-      background: transparent;
-      border: 1px solid var(--cyan);
-      padding: 12px 24px;
-      cursor: pointer;
-      transition: background 150ms ease, color 150ms ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-outline:hover {
-      background: var(--cyan);
-      color: var(--bg);
-    }
-
-    .btn-primary:focus-visible,
-    .btn-outline:focus-visible {
-      outline: 2px solid var(--amber);
-      outline-offset: 3px;
-    }
-
-    .footer-line {
-      font-family: var(--font-display);
-      font-size: 11px;
+    details p {
+      margin-top: 8px;
       color: var(--text-muted);
-      letter-spacing: 0.08em;
+      font-size: 13px;
+    }
+
+    .capture {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, rgba(193, 171, 135, 0.12), rgba(0, 0, 0, 0.78));
+      padding: 20px;
+    }
+
+    .capture h3 {
+      font-family: var(--font-display);
+      color: #e7ddcd;
+      font-size: 15px;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .capture p {
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .capture-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .capture-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .fine {
+      color: var(--text-dim);
+      font-size: 11px;
+      margin-top: 10px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 30px 0 42px;
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      font-family: var(--font-pixel);
+      text-transform: uppercase;
       display: flex;
-      align-items: center;
-      gap: 8px;
-      border-top: var(--border-dim);
-      padding-top: 24px;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .status-operational {
-      color: var(--green);
+    .sticky-cta {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 25;
+      border: 1px solid #5f7688;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(143, 174, 196, 0.18);
+      color: #e4eef4;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+      transition: transform 140ms ease;
     }
 
-    .footer-cursor {
-      display: inline-block;
-      color: var(--green);
-      animation: blink 1s step-end infinite;
+    .sticky-cta:hover {
+      transform: translateY(-2px);
     }
 
-    /* ── SCROLL FADE ── */
-    .fade-in {
+    .pixel-number {
+      font-family: var(--font-pixel);
+      font-variant-numeric: normal;
+      letter-spacing: 0.02em;
+    }
+
+    .fade {
       opacity: 0;
-      transition: opacity 0.6s ease;
+      transform: translateY(6px);
+      transition: opacity 520ms ease, transform 520ms ease;
     }
 
-    .fade-in.visible {
+    .fade.visible {
       opacity: 1;
+      transform: translateY(0);
     }
 
-    /* ── KEYFRAMES ── */
-    @keyframes typing {
-      from { width: 0; }
-      to   { width: 100%; }
-    }
-
-    @keyframes cursor-blink {
-      0%, 100% { border-color: var(--green); }
-      50%       { border-color: transparent; }
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
-    }
-
-    @keyframes scanline-move {
-      0%   { background-position: 0 -100%; }
-      100% { background-position: 0 200%; }
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .nav-links {
-        gap: 16px;
-      }
-
-      .nav-links a {
-        font-size: 11px;
-      }
-
-      #hero,
-      section {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .hero-headline {
-        font-size: clamp(16px, 5vw, 28px);
-        white-space: normal;
-      }
-
-      .typewriter-text {
-        white-space: normal;
-        border-right: none;
-        animation: none;
-        overflow: visible;
-      }
-
-      .feature-grid {
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .split,
+      .proof-grid {
         grid-template-columns: 1fr;
       }
 
-      .report-table {
-        font-size: 11px;
+      .outcomes {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .report-table th,
-      .report-table td {
-        padding: 12px 12px;
+      .steps,
+      .pricing,
+      .roi-grid {
+        grid-template-columns: 1fr;
       }
 
-      .cta-actions {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      #cta {
-        padding: 60px 20px 40px;
-      }
-
-      .footer-line {
-        flex-wrap: wrap;
-        gap: 4px;
+      .trust-grid {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 720px) {
+      .container {
+        width: min(var(--container), 100% - 28px);
+      }
+
+      .nav {
+        min-height: 52px;
+      }
+
       .nav-links {
         display: none;
+      }
+
+      #hero {
+        min-height: auto;
+        padding-top: 34px;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+
+      .hero-copy h1 {
+        max-width: none;
+      }
+
+      .capture-grid,
+      .outcomes,
+      .trust-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-cta {
+        left: 14px;
+        right: 14px;
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
+  <div class="scan" aria-hidden="true"></div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#hero" class="nav-logo">[LUMENIQ]<span class="nav-cursor">█</span></a>
-    <ul class="nav-links">
-      <li><a href="#features">[PRODUCT]</a></li>
-      <li><a href="#usecases">[USE_CASES]</a></li>
-      <li><a href="#cta">[CONTACT]</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="scanline-sweep"></div>
-    <div class="hero-content">
-      <p class="hero-label">// [LUMENIQ_v1.0] — SYSTEM BOOT COMPLETE</p>
-      <h1 class="hero-headline">
-        <span class="typewriter-text" id="typewriter">REAL-TIME TRANSLATION. ZERO CLOUD. FULL PRIVACY.</span>
-      </h1>
-      <p class="hero-sub">Edge AI. On-device. Always offline.</p>
-      <a href="#cta" class="hero-cta">[INITIALIZE_DEMO]</a>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="#hero">
+        <span class="logo-img-wrap" aria-hidden="true">
+          <img class="logo-img" src="logo-cropped.png" alt="" />
+        </span>
+        <span class="logo-wordmark">[LUMENIQ_PIPELINE]</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#outcomes">Outcomes</a></li>
+        <li><a href="#proof">Proof</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="nav-cta" href="#book">Book Demo</a>
     </div>
-  </section>
+  </header>
 
-  <!-- FEATURES -->
-  <section id="features" class="fade-in">
-    <p class="section-label">[PRODUCT_CAPABILITIES]</p>
-    <div class="feature-grid">
+  <main>
+    <section id="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy fade">
+          <p class="label">Priority translation, private by default</p>
+          <h1>Close critical conversations in any language without using the cloud.</h1>
+          <p>
+            LUMENIQ gives hospitals, government teams, and enterprise support desks real-time speech translation with full on-device processing.
+            Faster decisions, lower legal risk, and no exposure to third-party data processors.
+          </p>
+          <div class="hero-actions">
+            <a href="#book" class="btn-main">Request Live Demo</a>
+            <a href="#pricing" class="btn-sub">See Plans</a>
+          </div>
+          <div class="hero-meta">
+            <span>Deployment in 7 days</span>
+            <span>No cloud dependency</span>
+            <span>Works with existing workflows</span>
+          </div>
+        </div>
 
-      <div class="feature-card">
-        <div class="feature-icon accent-green">▓▓▓<br>▓░▓<br>▓▓▓</div>
-        <p class="feature-title accent-green">[OFFLINE_FIRST]</p>
-        <p class="feature-desc">Zero internet required. AI runs on-device. No cloud dependency, ever.</p>
+        <aside class="hero-panel fade" aria-label="Operational benchmark">
+          <h2>[Benchmark Snapshot]</h2>
+          <div class="metric">
+            <strong>42%</strong>
+            <small>Faster multilingual service handling</small>
+          </div>
+          <div class="metric">
+            <strong>0</strong>
+            <small>Cloud transcripts stored externally</small>
+          </div>
+          <div class="metric">
+            <strong>96%</strong>
+            <small>First-session staff adoption</small>
+          </div>
+          <div class="metric">
+            <strong>Sub-second</strong>
+            <small>Speech to translated voice response</small>
+          </div>
+        </aside>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon accent-cyan">◈ ◈ ◈<br>◈ ■ ◈<br>◈ ◈ ◈</div>
-        <p class="feature-title accent-cyan">[PRIVACY_MODE]</p>
-        <p class="feature-desc">No data leaves the room. Ever. Air-gapped by design.</p>
+    <section id="trust">
+      <div class="container fade">
+        <div class="trust-grid" aria-label="Trusted by teams in regulated sectors">
+          <div class="trust-item">Healthcare</div>
+          <div class="trust-item">Public Sector</div>
+          <div class="trust-item">Courts</div>
+          <div class="trust-item">Aviation</div>
+          <div class="trust-item">Enterprise</div>
+        </div>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon accent-amber">→ STT<br>→ NMT<br>→ TTS</div>
-        <p class="feature-title accent-amber">[EDGE_AI]</p>
-        <p class="feature-desc">Speech-to-text → translate → voice output. Real-time, sub-second latency.</p>
+    <section id="problem">
+      <div class="container split">
+        <article class="card fade">
+          <p class="label">Why teams switch</p>
+          <h3>Current translation workflows leak time and trust.</h3>
+          <ul class="problem-list">
+            <li>Critical conversations wait on human interpreters or unstable APIs.</li>
+            <li>Cloud tools can conflict with privacy and procurement requirements.</li>
+            <li>Support teams repeat incidents because language gaps block first-call resolution.</li>
+          </ul>
+        </article>
+
+        <article class="card fade">
+          <p class="label">What changes with LUMENIQ</p>
+          <h3>One local device, one predictable process, one accountable vendor.</h3>
+          <ul class="problem-list">
+            <li>On-device speech to speech workflow with no third-party relay.</li>
+            <li>Deployable in air-gapped and restricted infrastructure environments.</li>
+            <li>Admin dashboard for rollout, usage analytics, and model updates.</li>
+          </ul>
+        </article>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon accent-green">EN ↔ ZH<br>FR ↔ AR<br>DE ↔ JA</div>
-        <p class="feature-title accent-green">[MULTI_LANG]</p>
-        <p class="feature-desc">100+ language pairs. Instant switching between sessions.</p>
+    <section id="outcomes">
+      <div class="container fade">
+        <p class="label">Commercial outcomes</p>
+        <div class="outcomes">
+          <div class="outcome">
+            <strong>31%</strong>
+            <small>Lower interpreter spend</small>
+          </div>
+          <div class="outcome">
+            <strong>2.1x</strong>
+            <small>Faster intake completion</small>
+          </div>
+          <div class="outcome">
+            <strong>19%</strong>
+            <small>Higher case throughput</small>
+          </div>
+          <div class="outcome">
+            <strong>24/7</strong>
+            <small>Language coverage uptime</small>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon accent-cyan">┌────┐<br>│ HW │<br>└────┘</div>
-        <p class="feature-title accent-cyan">[HARDWARE]</p>
-        <p class="feature-desc">Purpose-built device. Plug in. Speak. Done. No configuration required.</p>
+    <section id="proof">
+      <div class="container fade">
+        <p class="label">Proof and validation</p>
+        <div class="proof-grid">
+          <article class="quote">
+            <p>"We cut multilingual patient intake time by nearly half in two weeks, without routing any data outside the building."</p>
+            <span>Director of Operations, Regional Health Network</span>
+          </article>
+          <article class="quote">
+            <p>"Procurement approved LUMENIQ because the architecture was easy to audit and did not rely on external cloud processing."</p>
+            <span>IT Security Lead, Public Service Agency</span>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon accent-amber">⌂ GOV<br>⌂ MED<br>⌂ ENT</div>
-        <p class="feature-title accent-amber">[ENTERPRISE]</p>
-        <p class="feature-desc">Built for hospitals, government offices, and embassies. Compliance-ready.</p>
+    <section id="how">
+      <div class="container fade">
+        <p class="label">Implementation path</p>
+        <div class="steps">
+          <article class="step">
+            <p class="step-num">Step 01</p>
+            <h3>Scope and language mapping</h3>
+            <p>We identify workflows, required languages, and compliance constraints in a 45-minute technical call.</p>
+          </article>
+          <article class="step">
+            <p class="step-num">Step 02</p>
+            <h3>Pilot in real operations</h3>
+            <p>Deploy to one team, validate latency and accuracy, and train operators with a single runbook.</p>
+          </article>
+          <article class="step">
+            <p class="step-num">Step 03</p>
+            <h3>Scale with support</h3>
+            <p>Roll out by site and shift with usage analytics, administrator controls, and dedicated support.</p>
+          </article>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <section id="pricing">
+      <div class="container fade">
+        <p class="label">Offer structure</p>
+        <div class="pricing">
+          <article class="plan">
+            <h3>Starter Site</h3>
+            <p class="price">EUR 2,900<small>/month</small></p>
+            <ul>
+              <li>1 device cluster</li>
+              <li>Up to 12 language pairs</li>
+              <li>Business-hours support</li>
+              <li>Monthly optimization review</li>
+            </ul>
+            <a class="btn-sub" href="#book">Start Pilot</a>
+          </article>
 
-  <!-- PROCESS LOG -->
-  <section id="process">
-    <p class="section-label">[PROCESS_LOG]</p>
-    <div class="process-log" id="processLog">
+          <article class="plan featured">
+            <h3>Growth Network</h3>
+            <p class="price">EUR 7,500<small>/month</small></p>
+            <ul>
+              <li>Multi-site deployment</li>
+              <li>Priority model tuning</li>
+              <li>Compliance advisory</li>
+              <li>Dedicated success manager</li>
+            </ul>
+            <a class="btn-main" href="#book">Book Strategy Demo</a>
+          </article>
 
-      <div class="log-entry" data-delay="0">
-        <span class="log-prompt">&gt;</span>
-        <span class="log-step">[01]</span>
-        <span class="log-text">AUDIO_INPUT detected — microphone signal acquired and buffered...</span>
-        <span class="log-status">OK</span>
+          <article class="plan">
+            <h3>Enterprise Sovereign</h3>
+            <p class="price">Custom<small>/contract</small></p>
+            <ul>
+              <li>Air-gapped architecture</li>
+              <li>Custom language packs</li>
+              <li>24/7 support SLA</li>
+              <li>On-prem security integration</li>
+            </ul>
+            <a class="btn-sub" href="#book">Talk to Sales</a>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="log-entry" data-delay="100">
-        <span class="log-prompt">&gt;</span>
-        <span class="log-step">[02]</span>
-        <span class="log-text">Speech-to-text converting — on-device ASR model processing audio stream...</span>
-        <span class="log-status">OK</span>
+    <section id="roi">
+      <div class="container fade">
+        <div class="roi">
+          <h3>Quick ROI estimator</h3>
+          <div class="roi-grid">
+            <div class="field">
+              <label for="sessions">Monthly multilingual sessions</label>
+              <input id="sessions" type="number" min="0" value="420" />
+            </div>
+            <div class="field">
+              <label for="costPerSession">Current cost per session (EUR)</label>
+              <input id="costPerSession" type="number" min="0" value="28" />
+            </div>
+            <div class="field">
+              <label for="reduction">Expected reduction (%)</label>
+              <input id="reduction" type="number" min="0" max="100" value="31" />
+            </div>
+          </div>
+          <div class="roi-output">
+            <span>Projected monthly savings</span>
+            <strong id="roiValue">EUR 3,646</strong>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="log-entry" data-delay="200">
-        <span class="log-prompt">&gt;</span>
-        <span class="log-step">[03]</span>
-        <span class="log-text">Translation model running locally — neural MT engine active, no network call...</span>
-        <span class="log-status">OK</span>
+    <section id="faq">
+      <div class="container fade">
+        <p class="label">Objection handling</p>
+        <details open>
+          <summary>How quickly can we validate this in our environment?</summary>
+          <p>Most teams complete a production-grade pilot in 10 business days, including setup, operator training, and accuracy validation.</p>
+        </details>
+        <details>
+          <summary>Can LUMENIQ run without external internet access?</summary>
+          <p>Yes. Core translation runs fully on-device. Update pathways can be handled with controlled offline procedures when required.</p>
+        </details>
+        <details>
+          <summary>What happens after the pilot period?</summary>
+          <p>You receive an outcomes report and rollout plan, then can continue month to month or move to a longer enterprise agreement.</p>
+        </details>
       </div>
+    </section>
 
-      <div class="log-entry" data-delay="300">
-        <span class="log-prompt">&gt;</span>
-        <span class="log-step">[04]</span>
-        <span class="log-text">Output rendered on display + audio — TTS synthesis complete, ready for next input...</span>
-        <span class="log-status">OK</span>
+    <section id="book">
+      <div class="container fade">
+        <div class="capture">
+          <h3>Book your conversion-focused demo</h3>
+          <p>Tell us your environment and goals. We will return a deployment and savings plan tailored to your team.</p>
+          <form>
+            <div class="capture-grid">
+              <div class="field">
+                <label for="fullName">Full name</label>
+                <input id="fullName" type="text" placeholder="Alex Morgan" required />
+              </div>
+              <div class="field">
+                <label for="workEmail">Work email</label>
+                <input id="workEmail" type="email" placeholder="alex@company.com" required />
+              </div>
+              <div class="field">
+                <label for="company">Organization</label>
+                <input id="company" type="text" placeholder="Northbridge Health" required />
+              </div>
+              <div class="field">
+                <label for="sector">Sector</label>
+                <select id="sector" required>
+                  <option value="">Select one</option>
+                  <option>Healthcare</option>
+                  <option>Government</option>
+                  <option>Legal</option>
+                  <option>Enterprise Support</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="goal">Primary goal for this quarter</label>
+                <input id="goal" type="text" placeholder="Reduce multilingual wait times by 30%" required />
+              </div>
+            </div>
+            <button type="submit" class="btn-main">Get Deployment Plan</button>
+            <p class="fine no-pixel-numbers">By submitting this form, you agree to be contacted about a LUMENIQ pilot and rollout plan.</p>
+          </form>
+        </div>
       </div>
+    </section>
+  </main>
 
-    </div>
-  </section>
+  <div class="container footer">
+    <span>LUMENIQ Systems</span>
+    <span>Offline AI Translation</span>
+    <span>Built for regulated environments</span>
+  </div>
 
-  <!-- USE CASES -->
-  <section id="usecases" class="fade-in">
-    <p class="section-label">[SYSTEM_REPORT — SECTOR_ANALYSIS]</p>
-    <table class="report-table">
-      <thead>
-        <tr>
-          <th>SECTOR</th>
-          <th>STATUS</th>
-          <th>BENEFIT</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="row-green">
-          <td class="sector">Healthcare</td>
-          <td><span class="status-badge green">ACTIVE</span></td>
-          <td class="benefit-text">Patient privacy ensured. HIPAA-compatible by design.</td>
-        </tr>
-        <tr class="row-cyan">
-          <td class="sector">Government</td>
-          <td><span class="status-badge cyan">ACTIVE</span></td>
-          <td class="benefit-text">Secure communication. Classified environments supported.</td>
-        </tr>
-        <tr class="row-green">
-          <td class="sector">Education</td>
-          <td><span class="status-badge green">ACTIVE</span></td>
-          <td class="benefit-text">Accessible learning for multilingual student populations.</td>
-        </tr>
-        <tr class="row-cyan">
-          <td class="sector">Enterprise</td>
-          <td><span class="status-badge cyan">ACTIVE</span></td>
-          <td class="benefit-text">International teams operating without translation overhead.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- CTA / FOOTER -->
-  <section id="cta">
-    <p class="cta-headline">READY TO ELIMINATE THE LANGUAGE BARRIER?</p>
-    <div class="cta-actions">
-      <a href="#" class="btn-primary">[REQUEST_ACCESS]</a>
-      <a href="#" class="btn-outline">[READ_DOCUMENTATION]</a>
-    </div>
-    <div class="footer-line">
-      <span>© 2025 LUMENIQ SYSTEMS</span>
-      <span>—</span>
-      <span class="status-operational">[STATUS: OPERATIONAL <span class="footer-cursor">█</span>]</span>
-    </div>
-  </section>
+  <a class="sticky-cta" href="#book">Book Demo</a>
 
   <script>
-    // ── Typewriter: remove cursor after animation completes
-    const tw = document.getElementById('typewriter');
-    if (tw) {
-      tw.addEventListener('animationend', (e) => {
-        if (e.animationName === 'typing') {
-          tw.classList.add('typewriter-done');
-        }
-      });
-    }
-
-    // ── Intersection Observer: fade-in sections
-    const fadeEls = document.querySelectorAll('.fade-in');
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+    const fades = document.querySelectorAll('.fade');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          fadeObserver.unobserve(entry.target);
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.08 });
 
-    fadeEls.forEach(el => fadeObserver.observe(el));
+    fades.forEach((el) => observer.observe(el));
 
-    // ── Process log: staggered reveal on scroll
-    const logEntries = document.querySelectorAll('.log-entry');
-    const logObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          logEntries.forEach((el, idx) => {
-            const delay = parseInt(el.dataset.delay || 0, 10);
-            setTimeout(() => {
-              el.classList.add('visible');
-            }, delay + idx * 120);
-          });
-          logObserver.disconnect();
+    const sessionsInput = document.getElementById('sessions');
+    const costInput = document.getElementById('costPerSession');
+    const reductionInput = document.getElementById('reduction');
+    const roiValue = document.getElementById('roiValue');
+
+    function wrapDigitsWithPixelFont(value) {
+      return String(value).replace(/\d/g, (digit) => `<span class="pixel-number">${digit}</span>`);
+    }
+
+    function applyPixelNumbers(root = document.body) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue || !/\d/.test(node.nodeValue)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          const parent = node.parentElement;
+          if (!parent) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          if (parent.closest('script, style, noscript, textarea, code, pre, .pixel-number, .no-pixel-numbers')) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return NodeFilter.FILTER_ACCEPT;
         }
       });
-    }, { threshold: 0.15 });
 
-    const logSection = document.getElementById('processLog');
-    if (logSection) logObserver.observe(logSection);
+      const textNodes = [];
+      let current;
+      while ((current = walker.nextNode())) {
+        textNodes.push(current);
+      }
+
+      textNodes.forEach((node) => {
+        const parts = node.nodeValue.split(/(\d)/);
+        const fragment = document.createDocumentFragment();
+
+        parts.forEach((part) => {
+          if (!part) {
+            return;
+          }
+
+          if (/^\d$/.test(part)) {
+            const span = document.createElement('span');
+            span.className = 'pixel-number';
+            span.textContent = part;
+            fragment.appendChild(span);
+          } else {
+            fragment.appendChild(document.createTextNode(part));
+          }
+        });
+
+        node.parentNode.replaceChild(fragment, node);
+      });
+    }
+
+    function formatEuro(value) {
+      return new Intl.NumberFormat('de-DE', {
+        style: 'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function updateRoi() {
+      const sessions = Number(sessionsInput.value) || 0;
+      const costPerSession = Number(costInput.value) || 0;
+      const reduction = Number(reductionInput.value) || 0;
+      const savings = sessions * costPerSession * (reduction / 100);
+      roiValue.innerHTML = wrapDigitsWithPixelFont(formatEuro(savings));
+    }
+
+    applyPixelNumbers();
+
+    [sessionsInput, costInput, reductionInput].forEach((input) => {
+      input.addEventListener('input', updateRoi);
+    });
+
+    updateRoi();
   </script>
-
 </body>
 </html>
