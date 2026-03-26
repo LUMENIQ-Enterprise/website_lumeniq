@@ -69,6 +69,45 @@ Example token intent:
 #### Close proximity rule
 If numbers and letters are semantically coupled and visually adjacent (for example 2.1x and its immediate descriptor), both should use Geist Pixel for consistency.
 
+### Typography Size Scale (Geometric Raster)
+All subtext / UI label elements follow a +2px lift from legacy values. The canonical sizes are:
+
+| Role | Font-size | Font family |
+|---|---|---|
+| Body copy | 14px (base) | Geist Sans |
+| Section labels (.label) | 13px | Geist Pixel |
+| Navigation links (.nav-links) | 14px | Geist Pixel |
+| Navigation CTA (.nav-cta) | 13px | Geist Pixel |
+| Hero meta tags (.hero-meta) | 14px | Geist Pixel |
+| Trust items (.trust-item) | 13px | Geist Pixel |
+| Metric labels (.metric small) | 13px | Geist Pixel |
+| Outcome labels (.outcome small) | 13px | Geist Pixel |
+| Step numbers (.step-num) | 14px | Geist Pixel |
+| Plan features (.plan ul) | 14px | Geist Pixel |
+| Price subtext (.price small) | 14px | Geist Pixel |
+| ROI output (.roi-output) | 14px | Geist Pixel |
+| Form labels (label) | 13px | Geist Pixel |
+| FAQ toggle (summary) | 14px | Geist Mono |
+| FAQ content (details p) | 15px | Geist Sans |
+| Quote attribution (.quote span) | 14px | Geist Mono |
+| Footer (.footer) | 13px | Geist Pixel |
+| Fine print (.fine) | 13px | Geist Sans |
+| Sticky CTA (.sticky-cta) | 13px | Geist Pixel |
+| Contact email (.contact-email) | 15px | Geist Mono |
+| Base icon (.hn) | 14px | icon font |
+
+Do not go below 13px for any subtext. Do not go below 14px for icon glyphs paired with 14px labels.
+
+### Icon-Text Alignment Rules
+All icon+text couplings must use one of the following consistent methods — never mix baseline tricks with flex:
+
+- **Inline-flex row** (navigation, hero-meta, footer, labels): `display: inline-flex; align-items: center; gap: Xpx;`
+- **Block flex row** (step-num): `display: flex; align-items: center; gap: Xpx;` (e.g. `gap: 6px` for step-num)
+- **Block flex start** (problem list items): `display: flex; align-items: flex-start; gap: 8px;` with `flex-shrink: 0; margin-top: 2px;` on the icon for optical first-line alignment
+- **Grid centered** (trust items): `display: grid; place-items: center; gap: 8px;`
+
+Do not use `vertical-align: baseline` or `margin-right` hacks on icons paired with text. Use gap on the flex/grid parent instead.
+
 ### Number Rendering Policy
 All visible digits are globally rendered with Geist Pixel by script.
 
