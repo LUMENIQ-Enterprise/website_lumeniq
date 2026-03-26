@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackernoon/pixel-icon-library@1.0.6/fonts/iconfont.css" />
   <style>
     @font-face {
       font-family: 'Geist Pixel Square';
@@ -177,6 +178,12 @@
       color: var(--accent-steel);
     }
 
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .nav-cta {
       padding: 8px 14px;
       border: 1px solid var(--line-strong);
@@ -210,6 +217,12 @@
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+    }
+
+    .label i.hn {
+      color: var(--accent-steel);
+      font-size: 12px;
+      line-height: 1;
     }
 
     .label::after {
@@ -312,6 +325,30 @@
       border-radius: 999px;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hn {
+      font-size: 12px;
+      line-height: 1;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .hero-meta .hn {
+      color: var(--accent-steel);
+      font-size: 11px;
+    }
+
+    .trust-item {
+      gap: 8px;
+    }
+
+    .trust-item .hn {
+      color: var(--accent-sand);
+      font-size: 12px;
     }
 
     .hero-panel {
@@ -403,6 +440,14 @@
       border-left: 2px solid #6a586f;
       padding-left: 12px;
       color: var(--text-muted);
+      position: relative;
+    }
+
+    .problem-list li i.hn {
+      color: var(--accent-mint);
+      font-size: 11px;
+      margin-right: 8px;
+      vertical-align: baseline;
     }
 
     .card h3 {
@@ -487,6 +532,13 @@
       margin-bottom: 8px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+    }
+
+    .step-num i.hn {
+      margin-right: 6px;
+      color: var(--accent-sand);
+      font-size: 11px;
+      vertical-align: baseline;
     }
 
     .pricing {
@@ -691,6 +743,18 @@
       flex-wrap: wrap;
     }
 
+    .footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer i.hn {
+      color: var(--accent-copper);
+      font-size: 11px;
+      line-height: 1;
+    }
+
     .sticky-cta {
       position: fixed;
       right: 14px;
@@ -803,6 +867,12 @@
       color: #aed9c0;
     }
 
+    .trust-item i.hn {
+      color: var(--accent-steel);
+      font-size: 12px;
+      line-height: 1;
+    }
+
     /* Rain on Glass Background Effect */
     .event-horizon-bg {
       position: fixed;
@@ -825,8 +895,8 @@
       width: 100%;
       height: 100%;
       border: 0;
-      opacity: 0.75;
-      filter: saturate(0) brightness(1.1);
+      opacity: 0.45;
+      filter: saturate(0) brightness(0.75);
     }
   </style>
 </head>
@@ -843,10 +913,10 @@
         <span class="logo-wordmark">LUMENIQ</span>
       </a>
       <ul class="nav-links">
-        <li><a href="#projekt">Projekt</a></li>
-        <li><a href="#vision">Vision</a></li>
-        <li><a href="#kontext">Kontext</a></li>
-        <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="#projekt"><i class="hn hn-profile-02" aria-hidden="true"></i>Projekt</a></li>
+        <li><a href="#vision"><i class="hn hn-view" aria-hidden="true"></i>Vision</a></li>
+        <li><a href="#kontext"><i class="hn hn-file-02" aria-hidden="true"></i>Kontext</a></li>
+        <li><a href="#kontakt"><i class="hn hn-message-02" aria-hidden="true"></i>Kontakt</a></li>
       </ul>
       <a class="nav-cta" href="#kontakt">Kontakt aufnehmen</a>
     </div>
@@ -867,9 +937,9 @@
             <a href="#projekt" class="btn-sub">Mehr erfahren</a>
           </div>
           <div class="hero-meta">
-            <span>On-Device</span>
-            <span>Offline-fähig</span>
-            <span>Datenschutzfreundlich</span>
+            <span><i class="hn hn-desktop" aria-hidden="true"></i>On-Device</span>
+            <span><i class="hn hn-cloud-off" aria-hidden="true"></i>Offline-fähig</span>
+            <span><i class="hn hn-lock-02" aria-hidden="true"></i>Datenschutzfreundlich</span>
           </div>
         </div>
 
@@ -898,8 +968,8 @@
     <section id="trust">
       <div class="container fade">
         <div class="trust-grid" aria-label="Mögliche Einsatzbereiche">
-          <div class="trust-item">Behörden</div>
-          <div class="trust-item">Gesundheit</div>
+          <div class="trust-item"><i class="hn hn-building-02" aria-hidden="true"></i>Behörden</div>
+          <div class="trust-item"><i class="hn hn-heart" aria-hidden="true"></i>Gesundheit</div>
           <div class="trust-item">Bildung</div>
           <div class="trust-item">Unternehmen</div>
           <div class="trust-item">Weitere Felder</div>
@@ -910,22 +980,22 @@
     <section id="projekt">
       <div class="container split">
         <article class="card fade">
-          <p class="label">Was wir bauen</p>
+          <p class="label"><i class="hn hn-desktop" aria-hidden="true"></i>Was wir bauen</p>
           <h3>Ein lokal laufendes Übersetzungssystem für professionelle Einsatzumgebungen.</h3>
           <ul class="problem-list">
-            <li>Vollständige On-Device-Verarbeitung – keine Daten verlassen das System.</li>
-            <li>Offline-fähig und unabhängig von permanenter Internetverbindung.</li>
-            <li>Entwickelt für reale Situationen mit hohen Anforderungen an Verlässlichkeit und Datenschutz.</li>
+            <li><i class="hn hn-lock-02" aria-hidden="true"></i>Vollständige On-Device-Verarbeitung – keine Daten verlassen das System.</li>
+            <li><i class="hn hn-cloud-off" aria-hidden="true"></i>Offline-fähig und unabhängig von permanenter Internetverbindung.</li>
+            <li><i class="hn hn-lock-02" aria-hidden="true"></i>Entwickelt für reale Situationen mit hohen Anforderungen an Verlässlichkeit und Datenschutz.</li>
           </ul>
         </article>
 
         <article class="card fade">
-          <p class="label">Warum dieser Ansatz</p>
+          <p class="label"><i class="hn hn-file-02" aria-hidden="true"></i>Warum dieser Ansatz</p>
           <h3>Sprachbarrieren in sensiblen Situationen erfordern eine andere Lösung.</h3>
           <ul class="problem-list">
-            <li>Cloud-basierte Lösungen sind in vielen regulierten Umgebungen nicht praktikabel.</li>
-            <li>Verfügbarkeit von Dolmetschern ist weder skalierbar noch immer gewährleistet.</li>
-            <li>Einfache, robuste Nutzbarkeit ist entscheidend für den echten professionellen Einsatz.</li>
+            <li><i class="hn hn-cloud-off" aria-hidden="true"></i>Cloud-basierte Lösungen sind in vielen regulierten Umgebungen nicht praktikabel.</li>
+            <li><i class="hn hn-profile-02" aria-hidden="true"></i>Verfügbarkeit von Dolmetschern ist weder skalierbar noch immer gewährleistet.</li>
+            <li><i class="hn hn-desktop" aria-hidden="true"></i>Einfache, robuste Nutzbarkeit ist entscheidend für den echten professionellen Einsatz.</li>
           </ul>
         </article>
       </div>
@@ -933,20 +1003,20 @@
 
     <section id="vision">
       <div class="container fade">
-        <p class="label">Vision &amp; Ausblick</p>
+        <p class="label"><i class="hn hn-view" aria-hidden="true"></i>Vision &amp; Ausblick</p>
         <div class="steps">
           <article class="step">
-            <p class="step-num">Ziel 01</p>
+            <p class="step-num"><i class="hn hn-view" aria-hidden="true"></i>Ziel 01</p>
             <h3>Von der Forschung zum Produkt</h3>
             <p>Langfristige Entwicklung zu einer marktfähigen Lösung, die in realen professionellen Umgebungen verlässlich funktioniert.</p>
           </article>
           <article class="step">
-            <p class="step-num">Ziel 02</p>
+            <p class="step-num"><i class="hn hn-building-02" aria-hidden="true"></i>Ziel 02</p>
             <h3>Breite Einsatzfelder erschließen</h3>
             <p>Behörden, Gesundheitseinrichtungen, Bildung, Unternehmen – überall dort, wo Sprache eine echte Barriere ist.</p>
           </article>
           <article class="step">
-            <p class="step-num">Ziel 03</p>
+            <p class="step-num"><i class="hn hn-message-02" aria-hidden="true"></i>Ziel 03</p>
             <h3>Partnerschaften und Kooperationen</h3>
             <p>Aktive Zusammenarbeit mit Pilotpartnern, Institutionen und Förderprogrammen für eine nachhaltige Entwicklung.</p>
           </article>
@@ -956,7 +1026,7 @@
 
     <section id="kontext">
       <div class="container fade">
-        <p class="label">Kontext &amp; aktueller Stand</p>
+        <p class="label"><i class="hn hn-file-02" aria-hidden="true"></i>Kontext &amp; aktueller Stand</p>
         <div class="proof-grid">
           <article class="quote">
             <p>LUMENIQ befindet sich in einem frühen Entwicklungsstadium. Wir arbeiten an einer funktionsfähigen Lösung mit konkretem Anwendungsbezug und dem Ziel, ein langfristig marktfähiges Produkt zu schaffen.</p>
@@ -973,7 +1043,7 @@
     <section id="kontakt">
       <div class="container fade">
         <div class="capture">
-          <h3>Interesse an Austausch, Pilotierung oder Kooperation?</h3>
+          <h3><i class="hn hn-message-02" aria-hidden="true"></i> Interesse an Austausch, Pilotierung oder Kooperation?</h3>
           <p>Wir freuen uns über Gespräche mit Organisationen, Institutionen und Einzelpersonen, die Sprachbarrieren in ihrem Berufsalltag kennen. Schreiben Sie uns gerne.</p>
           <a href="mailto:admin@lumeniq.de" class="btn-main">E-Mail schreiben</a>
           <a href="mailto:admin@lumeniq.de" class="contact-email">admin@lumeniq.de</a>
@@ -983,9 +1053,9 @@
   </main>
 
   <div class="container footer">
-    <span>LUMENIQ</span>
-    <span>Lokale KI-Übersetzung</span>
-    <span>Frühes Entwicklungsstadium</span>
+    <span><i class="hn hn-view" aria-hidden="true"></i>LUMENIQ</span>
+    <span><i class="hn hn-file-02" aria-hidden="true"></i>Lokale KI-Übersetzung</span>
+    <span><i class="hn hn-profile-02" aria-hidden="true"></i>Frühes Entwicklungsstadium</span>
   </div>
 
   <a class="sticky-cta" href="#kontakt">Kontakt aufnehmen</a>
