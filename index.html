@@ -914,14 +914,26 @@
       width: 100%;
       height: 100%;
       border: 0;
-      opacity: 0.45;
-      filter: saturate(0) brightness(0.75);
+      opacity: 0.62;
+      filter: saturate(0) brightness(0.92);
+    }
+
+    .rain-pixel-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.52) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.52) 1px, transparent 1px);
+      background-size: 4px 4px;
     }
   </style>
 </head>
 <body>
   <div class="event-horizon-bg">
     <iframe src="rain-on-glass.html" title="Rain on glass background effect"></iframe>
+    <div class="rain-pixel-overlay" aria-hidden="true"></div>
   </div>
 
   <div class="scan" aria-hidden="true"></div>
