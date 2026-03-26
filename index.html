@@ -449,8 +449,13 @@
     .problem-list li i.hn {
       color: var(--accent-mint);
       font-size: 13px;
+      width: 1.15em;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1;
       flex-shrink: 0;
-      margin-top: 2px; /* optical offset: aligns icon baseline with the first text line */
+      margin-top: 3px; /* optical offset: aligns icon baseline with the first text line */
     }
 
     .card h3 {
@@ -709,6 +714,16 @@
       font-size: 15px;
       letter-spacing: 0.05em;
       margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .capture h3 i.hn {
+      font-size: 14px;
+      line-height: 1;
+      color: var(--accent-sand);
+      transform: translateY(1px);
     }
 
     .capture p {
@@ -974,9 +989,9 @@
         <div class="trust-grid" aria-label="Mögliche Einsatzbereiche">
           <div class="trust-item"><i class="hn hn-bank" aria-hidden="true"></i>Behörden</div>
           <div class="trust-item"><i class="hn hn-heart" aria-hidden="true"></i>Gesundheit</div>
-          <div class="trust-item">Bildung</div>
-          <div class="trust-item">Unternehmen</div>
-          <div class="trust-item">Weitere Felder</div>
+          <div class="trust-item"><i class="hn hn-clipboard" aria-hidden="true"></i>Bildung</div>
+          <div class="trust-item"><i class="hn hn-technology" aria-hidden="true"></i>Unternehmen</div>
+          <div class="trust-item"><i class="hn hn-grid" aria-hidden="true"></i>Weitere Felder</div>
         </div>
       </div>
     </section>
