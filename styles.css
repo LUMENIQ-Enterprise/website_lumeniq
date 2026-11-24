@@ -1,0 +1,94 @@
+@font-face {
+  font-family: Geist;
+  src: url("assets/fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Pixel Square";
+  src: url("assets/fonts/GeistPixel-Square.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Pixel Line";
+  src: url("assets/fonts/GeistPixel-Line.woff2") format("woff2");
+  font-display: swap;
+}
+:root {
+  --paper: #fcfcf7;
+  --ink: #192e23;
+  --text: #425548;
+  --line: #c7d2c3;
+  --pixel: "Geist Pixel Square", monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.55 Geist, system-ui, sans-serif; }
+a { color: inherit; text-underline-offset: .22em; }
+a:hover, summary:hover { color: #476b36; }
+:focus-visible { outline: 3px solid #497a39; outline-offset: 4px; }
+.skip { position: absolute; left: 1rem; top: -5rem; background: white; padding: .5rem; }
+.skip:focus { top: .5rem; }
+.wrap { width: min(1232px, 90%); margin-inline: auto; }
+.mast, footer, .actions, nav, .brand, figcaption, .sectors { display: flex; align-items: center; }
+.mast { min-height: 84px; gap: 3rem; border-bottom: 1px solid var(--line); }
+.brand { font: 1.95rem/1 var(--pixel); letter-spacing: -.055em; gap: .45rem; text-decoration: none; }
+.brandmark { display: grid; place-items: center; width: 1.55rem; height: 1.55rem; background: var(--ink); color: #c3e897; font-size: 1.35rem; }
+nav { gap: 2rem; margin-left: auto; }
+nav a, footer a { text-decoration: none; }
+nav a:hover, nav [aria-current], footer a:hover { text-decoration: underline; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: .72rem 1.25rem; background: var(--ink); color: white; border-radius: 5px; font-weight: 550; text-decoration: none; }
+.button:hover { background: #37533e; color: white; }
+.compact { min-height: 40px; padding: .43rem 1.1rem; }
+.hero, .split, .profile { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.hero { padding-block: clamp(3rem, 6vw, 6rem); }
+h1, h2, h3, p, figure, dl, dd { margin: 0; }
+h1, h2, h3 { font-weight: 550; text-wrap: balance; }
+h1 { font-size: clamp(3rem, 5.25vw, 5.25rem); line-height: 1.015; letter-spacing: -.068em; }
+h1 em { display: inline-block; font: 400 .97em/1.08 var(--pixel); color: #44643f; letter-spacing: -.06em; }
+.intro { font-size: clamp(1.05rem, 1.5vw, 1.26rem); max-width: 43ch; margin-top: 1.5rem; }
+p, li { color: var(--text); }
+.actions { flex-wrap: wrap; gap: 1rem 1.5rem; margin-top: 1.8rem; }
+.textlink { font-weight: 550; }
+figure { border: 1px solid #bdcbb3; background: #e9f1de; }
+figure img { width: 100%; height: auto; display: block; }
+figcaption { justify-content: space-between; padding: .65rem 1rem; font: .9rem var(--pixel); border-top: 1px solid #bdcbb3; }
+.band { border-block: 1px solid var(--line); background: #eff3e9; }
+.sectors { justify-content: space-between; gap: 1rem; padding-block: 1.25rem; }
+.sectors span, .role, .example-title, dt, .pixel-number { font-family: var(--pixel); }
+.sectors b { font-weight: 520; }
+.section, .team-head, .tech, .contact { padding-block: clamp(3rem, 6vw, 5.5rem); }
+h2 { font-size: clamp(2rem, 3.5vw, 3.25rem); line-height: 1.1; letter-spacing: -.055em; }
+h3 { font-size: 1.28rem; letter-spacing: -.035em; margin-bottom: .55rem; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-top: 2rem; }
+.features article, details, .profile { border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.tech { background: #e6efdf; }
+.split p, .measure { margin-top: 1rem; max-width: 58ch; }
+.example { padding: 1.6rem; border: 1px solid #a7b9a0; background: #f7faf3; }
+.split .example-title { margin: 0 0 1rem; }
+dt { margin-top: .85rem; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .9rem; color: #466043; }
+dd { font-size: 1.2rem; margin-top: .2rem; }
+.measure { margin-bottom: 2rem; }
+details { padding: 0; }
+details:last-child { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; padding: 1rem 0; font-weight: 550; }
+details p { max-width: 74ch; margin-bottom: 1.25rem; }
+.contact { background: #d8e9c2; }
+.contact .button { justify-self: end; }
+footer { padding-block: 2rem; gap: 2rem; flex-wrap: wrap; }
+footer .brand { margin-right: auto; }
+.team-head h1 { max-width: 16ch; }
+.profile { padding-block: 2rem; align-items: start; }
+.profile h2 { font-size: 2rem; margin-block: .5rem; }
+.profile ul { padding-left: 1.2rem; margin: 0; }
+.profiles { padding-bottom: 2rem; }
+@media (max-width: 760px) {
+  .mast { gap: 1rem; flex-wrap: wrap; padding-block: 1rem .65rem; }
+  .mast .compact { margin-left: auto; }
+  nav { order: 1; width: 100%; margin: 0; gap: 1.5rem; }
+  nav a { padding-block: .4rem; }
+  .hero, .split, .profile, .features { grid-template-columns: 1fr; gap: 1.5rem; }
+  .hero { padding-block: 2.5rem 2rem; }
+  .sectors { display: grid; grid-template-columns: repeat(2, 1fr); }
+  .contact .button { justify-self: start; }
+  footer { gap: 1rem; }
+}
