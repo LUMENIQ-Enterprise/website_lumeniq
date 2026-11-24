@@ -31,8 +31,7 @@ a:hover, summary:hover { color: #476b36; }
 .wrap { width: min(1232px, 90%); margin-inline: auto; }
 .mast, footer, .actions, nav, .brand, figcaption, .sectors { display: flex; align-items: center; }
 .mast { min-height: 84px; gap: 3rem; border-bottom: 1px solid var(--line); }
-.brand { font: 1.95rem/1 var(--pixel); letter-spacing: -.055em; gap: .45rem; text-decoration: none; }
-.brandmark { display: grid; place-items: center; width: 1.55rem; height: 1.55rem; background: var(--ink); color: #c3e897; font-size: 1.35rem; }
+.brand { font: 1.95rem/1 var(--pixel); letter-spacing: -.055em; text-decoration: none; }
 nav { gap: 2rem; margin-left: auto; }
 nav a, footer a { text-decoration: none; }
 nav a:hover, nav [aria-current], footer a:hover { text-decoration: underline; }
@@ -54,7 +53,7 @@ figure img { width: 100%; height: auto; display: block; }
 figcaption { justify-content: space-between; padding: .65rem 1rem; font: .9rem var(--pixel); border-top: 1px solid #bdcbb3; }
 .band { border-block: 1px solid var(--line); background: #eff3e9; }
 .sectors { justify-content: space-between; gap: 1rem; padding-block: 1.25rem; }
-.sectors span, .role, .example-title, dt, .pixel-number { font-family: var(--pixel); }
+.sectors span, .sectors b, .role, .example-title, dt, .pixel-number { font-family: var(--pixel); }
 .sectors b { font-weight: 520; }
 .section, .team-head, .tech, .contact { padding-block: clamp(3rem, 6vw, 5.5rem); }
 h2 { font-size: clamp(2rem, 3.5vw, 3.25rem); line-height: 1.1; letter-spacing: -.055em; }
